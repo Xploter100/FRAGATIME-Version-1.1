@@ -1,0 +1,23 @@
+name: Build FRAGATIME v1.1
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: cmake -B build -A x64
+
+      - name: Compilar
+        run: cmake --build build --config Release --target FRAGATIME_VST3 --parallel 4
+
+      - name: Subir VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: FRAGATIME-v1.1-VST3-Windows
+          path: build/FRAGATIME_artefacts/Release/VST3/
